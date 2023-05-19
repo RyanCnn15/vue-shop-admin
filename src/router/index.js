@@ -5,9 +5,15 @@ import Login from '@/views/login/index.vue';
 import { getToken } from '@/utils/auth';
 import { ElMessage } from 'element-plus';
 import store from '@/store';
+import Layout from '@/layout/index.vue';
 
 const routes = [
-    { path: '/', name: 'Index', component: Index },
+    {
+        path: '/',
+        name: 'Layout',
+        component: Layout,
+        children: [{ path: '', name: 'Login', meta: { title: '首页' }, component: Index }],
+    },
     { path: '/login', name: 'Login', component: Login },
     { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
 ];
