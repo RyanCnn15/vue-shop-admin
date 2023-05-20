@@ -7,11 +7,18 @@ const store = createStore({
     state() {
         return {
             userInfo: {},
+            asideWidth: 250,
+            role: {},
+            menus: [],
+            ruleNames: [],
         };
     },
     mutations: {
         SET_USER_INFO(state, payload) {
             state.userInfo = payload;
+        },
+        SET_ASIDE_WIDTH(state, payload) {
+            state.asideWidth = state.asideWidth === 250 ? 65 : 250;
         },
     },
     actions: {
@@ -53,9 +60,9 @@ const store = createStore({
                     });
             });
         },
-        updatePassword({ commit }, { oldpassword, password, repassword }) {
+        updatePassword({ commit }, payload) {
             return new Promise((resolve, reject) => {
-                updatePassword({ oldpassword, password, repassword })
+                updatePassword(payload)
                     .then(res => {
                         // setToken(res.data.token);
                         if (res.data) {

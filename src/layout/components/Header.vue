@@ -5,7 +5,7 @@
                 <img src="../../assets/vue.svg" alt="" />
                 <span class="text-light-50">后台管理</span>
             </a>
-            <el-icon class="icon-btn"><fold /></el-icon>
+            <el-icon class="icon-btn" @click="store.commit('SET_ASIDE_WIDTH')"><fold /></el-icon>
         </div>
 
         <div class="header-right">
@@ -101,8 +101,6 @@ const rules = reactive({
 const formRef = ref();
 const handleSubmit = () => {
     formRef.value.validate((valid, fields) => {
-        console.log(valid);
-        console.log(form);
         if (!valid) return;
         store.dispatch('updatePassword', form);
         showDrawer.value = false;

@@ -14,7 +14,10 @@ const routes = [
     {
         path: '/',
         component: Layout,
-        children: [{ path: '/', name: 'Index', meta: { title: '首页' }, component: Index }],
+        children: [
+            { path: '/', name: 'Index', meta: { title: '首页' }, component: Index },
+            { path: '/goods/list', name: 'GoodsList', meta: { title: '购物列表' }, component: () => import('@/views/goods/list.vue') },
+        ],
     },
     { path: '/login', name: 'Login', meta: { title: '管理员登录' }, component: Login },
     { path: '/:pathMatch(.*)*', name: 'NotFound', meta: { title: '404' }, component: NotFound },

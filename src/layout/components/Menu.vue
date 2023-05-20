@@ -1,54 +1,63 @@
+<!-- 这里的坑：elmenu 跟 elaside 联动宽度时，动画不正常，这里将组件动画去掉，自己包裹一层写动画 -->
 <template>
-    <div width="200px">
-        <el-menu default-active="2" class="el-menu-vertical-demo" :collapse="isCollapse" @open="handleOpen" @close="handleClose">
-            <el-sub-menu index="1">
-                <template #title>
-                    <el-icon><location /></el-icon>
-                    <span>Navigator One</span>
-                </template>
-                <el-menu-item-group>
-                    <template #title><span>Group One</span></template>
-                    <el-menu-item index="1-1">item one</el-menu-item>
-                    <el-menu-item index="1-2">item two</el-menu-item>
-                </el-menu-item-group>
-                <el-menu-item-group title="Group Two">
-                    <el-menu-item index="1-3">item three</el-menu-item>
-                </el-menu-item-group>
-                <el-sub-menu index="1-4">
-                    <template #title><span>item four</span></template>
-                    <el-menu-item index="1-4-1">item one</el-menu-item>
+    <div class="aside" :style="{ width: store.state.asideWidth + 'px' }">
+        <el-menu
+            width="250px"
+            :default-active="defaultActive"
+            :collapse="isCollapse"
+            :collapse-transition="true"
+            unique-opened
+            @select="handleSelect"
+        >
+            <template v-for="(menu, menuIndex) in asideMenus" :key="menuIndex">
+                <el-sub-menu v-if="menu.child && menu.child.length > 0" :index="menu.name">
+                    <template #title>
+                        <el-icon>
+                            <component :is="menu.icon"></component>
+                        </el-icon>
+                        <span>{{ menu.name }}</span>
+                    </template>
+                    <el-menu-item v-for="(child, childIndex) in menu.child" :key="childIndex" :index="child.frontpath">
+                        <el-icon>
+                            <component :is="child.icon"></component>
+                        </el-icon>
+                        <span>{{ child.name }}</span>
+                    </el-menu-item>
                 </el-sub-menu>
-            </el-sub-menu>
-            <el-menu-item index="2">
-                <el-icon><Menu /></el-icon>
-                <template #title>Navigator Two</template>
-            </el-menu-item>
-            <el-menu-item index="3" disabled>
-                <el-icon><document /></el-icon>
-                <template #title>Navigator Three</template>
-            </el-menu-item>
-            <el-menu-item index="4">
-                <el-icon><setting /></el-icon>
-                <template #title>Navigator Four</template>
-            </el-menu-item>
+
+                <el-menu-item v-else :index="menu.frontpath">
+                    <el-icon>
+                        <component :is="menu.icon"></component>
+                    </el-icon>
+                    <span>{{ menu.name }}</span>
+                </el-menu-item>
+            </template>
         </el-menu>
     </div>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter, useRoute } from 'vue-router';
 
-const isCollapse = ref(true);
-const handleOpen = (key: string, keyPath: string[]) => {
-    console.log(key, keyPath);
-};
-const handleClose = (key: string, keyPath: string[]) => {
-    console.log(key, keyPath);
+const store = useStore();
+const router = useRouter();
+const route = useRoute();
+
+const isCollapse = computed(() => store.state.asideWidth === 65);
+const defaultActive = computed(() => route.path);
+const asideMenus = computed(() => store.state.userInfo.menus);
+
+const handleSelect = path => {
+    router.push(path);
 };
 </script>
 
-<style>
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-    width: 200px;
-    min-height: 400px;
+<style scoped>
+.aside {
+    @apply fixed bg-light-50 top-60px left-0 bottom-0 overflow-y-auto overflow-x-hidden transition-all duration-200;
+}
+.aside::-webkit-scrollbar {
+    display: none;
 }
 </style>
