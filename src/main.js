@@ -1,14 +1,11 @@
 import { createApp } from 'vue';
 import App from './App.vue';
-import 'virtual:windi.css';
 import router from './router';
 import store from '@/store';
-// ElementPlus
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
-import 'element-plus/theme-chalk/el-loading.css';
-import 'element-plus/theme-chalk/el-message.css';
-import 'element-plus/theme-chalk/el-notification.css';
-import 'element-plus/theme-chalk/el-message-box.css';
+import 'normalize.css'
+import 'virtual:windi.css';
+import 'nprogress/nprogress.css';
 
 const app = createApp(App);
 

@@ -1,15 +1,3 @@
 <template>
-    <div>
-        index
-    </div>
+    <RouterView />
 </template>
-<script>
-export default {
-    name: "",
-    data() {
-        return {};
-    },
-    methods: {},
-};
-</script>
-<style scoped></style>

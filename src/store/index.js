@@ -1,6 +1,6 @@
 import { createStore } from 'vuex';
-import { login, getInfo } from '@/api/manager';
-import { setToken } from '@/utils/auth';
+import { login, logout, getInfo, updatePassword } from '@/api/manager';
+import { setToken, removeToken } from '@/utils/auth';
 import { ElMessage } from 'element-plus';
 
 const store = createStore({
@@ -10,7 +10,7 @@ const store = createStore({
         };
     },
     mutations: {
-        setUserInfo(state, payload) {
+        SET_USER_INFO(state, payload) {
             state.userInfo = payload;
         },
     },
@@ -23,8 +23,21 @@ const store = createStore({
                         resolve(res);
                     })
                     .catch(err => {
-                        ElMessage.error(err.msg);
                         reject(err);
+                    });
+            });
+        },
+        logout({ commit }) {
+            return new Promise((resolve, reject) => {
+                logout()
+                    .then(res => {
+                        resolve(res);
+                    })
+                    .catch(err => {
+                        reject(err);
+                    })
+                    .finally(() => {
+                        removeToken();
                     });
             });
         },
@@ -32,7 +45,24 @@ const store = createStore({
             return new Promise((resolve, reject) => {
                 getInfo()
                     .then(userInfo => {
-                        commit('setUserInfo', userInfo.data);
+                        commit('SET_USER_INFO', userInfo.data);
+                        resolve(userInfo);
+                    })
+                    .catch(err => {
+                        reject(err);
+                    });
+            });
+        },
+        updatePassword({ commit }, { oldpassword, password, repassword }) {
+            return new Promise((resolve, reject) => {
+                updatePassword({ oldpassword, password, repassword })
+                    .then(res => {
+                        // setToken(res.data.token);
+                        if (res.data) {
+                            ElMessage.success('密码修改成功');
+                        } else {
+                            ElMessage.error('密码修改失败');
+                        }
                         resolve(userInfo);
                     })
                     .catch(err => {

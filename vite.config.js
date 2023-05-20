@@ -1,10 +1,11 @@
 import vue from '@vitejs/plugin-vue';
+import path from 'path';
 import { defineConfig } from 'vite';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import WindiCSS from 'vite-plugin-windicss';
-import path from 'path';
+import ElementPlus from 'unplugin-element-plus/vite'; // 按照官网自动引入没有样式，这里要多添加一个插件
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -27,6 +28,7 @@ export default defineConfig({
     plugins: [
         vue(),
         WindiCSS(),
+        ElementPlus(),
         AutoImport({
             resolvers: [ElementPlusResolver()],
         }),

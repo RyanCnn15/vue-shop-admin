@@ -54,9 +54,10 @@
 <script setup>
 import { reactive, ref, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import store from '@/store';
+import { useStore } from 'vuex';
 
 const router = useRouter();
+const store = useStore();
 let loading = ref(false);
 const loginFormRef = ref();
 
