@@ -40,7 +40,9 @@ const handleTabRemove = (name) => {
   const index = tabList.value.findIndex((tab) => tab.path === name);
   const tabs = tabList.value.filter((tab) => tab.path !== name);
   tabList.value = [...tabs];
-  router.push(tabList.value[index - 1]['path']);
+  if (name === route.path) {
+    router.push(tabList.value[index - 1]['path']);
+  }
 };
 
 onBeforeRouteUpdate((to, from, next) => {
