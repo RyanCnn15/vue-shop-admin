@@ -9,10 +9,10 @@
 </template>
 <script>
 export default {
-  name: "",
+  name: '',
   data() {
     return {};
   },
-  methods: {},
+  methods: {}
 };
 </script>

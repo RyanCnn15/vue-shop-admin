@@ -39,10 +39,10 @@
     </el-menu>
   </div>
 </template>
-<script lang="ts" setup>
-import { computed } from "vue";
-import { useStore } from "vuex";
-import { useRouter, useRoute } from "vue-router";
+<script setup>
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter, useRoute } from 'vue-router';
 
 const store = useStore();
 const router = useRouter();

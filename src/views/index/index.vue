@@ -1,3 +1,4 @@
 <template>
+  Index
   <RouterView />
 </template>

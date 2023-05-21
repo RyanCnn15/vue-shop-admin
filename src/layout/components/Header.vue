@@ -3,16 +3,25 @@
     <div class="header-left">
       <a href="/" class="logo">
         <img src="../../assets/vue.svg" alt="" />
-        <span class="text-light-50">后台管理</span>
+        <span class="text-light-50" v-if="store.state.asideWidth === 250">后台管理</span>
       </a>
-      <el-icon class="icon-btn" @click="store.commit('SET_ASIDE_WIDTH')"><fold /></el-icon>
+      <el-tooltip
+        effect="dark"
+        :content="store.state.asideWidth === 250 ? '折叠菜单' : '展开菜单'"
+        placement="bottom"
+      >
+        <el-icon class="icon-btn" @click="store.commit('SET_ASIDE_WIDTH')">
+          <fold v-if="store.state.asideWidth === 250" />
+          <Expand v-else />
+        </el-icon>
+      </el-tooltip>
     </div>
 
     <div class="header-right">
       <el-tooltip effect="dark" content="刷新" placement="bottom">
         <el-icon class="icon-btn" @click="handleRefresh"><refresh /></el-icon>
       </el-tooltip>
-      <el-tooltip effect="dark" content="全屏" placement="bottom">
+      <el-tooltip effect="dark" :content="isFullscreen ? '退出全屏' : '全屏'" placement="bottom">
         <el-icon class="icon-btn" @click="toggle">
           <full-screen v-if="!isFullscreen" />
           <aim v-else />
@@ -75,55 +84,55 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
-import { useFullscreen } from "@vueuse/core";
+import { reactive, ref } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+import { useFullscreen } from '@vueuse/core';
 
 const store = useStore();
 const router = useRouter();
 const { isFullscreen, toggle } = useFullscreen();
 
 const form = reactive({
-  oldpassword: "",
-  password: "",
-  repassword: "",
+  oldpassword: '',
+  password: '',
+  repassword: ''
 });
 const rules = reactive({
   oldpassword: [
     {
       required: true,
-      message: "旧密码不能为空",
-      trigger: "blur",
-    },
+      message: '旧密码不能为空',
+      trigger: 'blur'
+    }
   ],
   password: [
     {
       required: true,
-      message: "新密码不能为空",
-      trigger: "blur",
-    },
+      message: '新密码不能为空',
+      trigger: 'blur'
+    }
   ],
   repassword: [
     {
       required: true,
-      message: "确认密码不能为空",
-      trigger: "blur",
+      message: '确认密码不能为空',
+      trigger: 'blur'
     },
     {
       validator: (rule, value, callback) => {
         return value === form.password;
       },
-      message: "确认密码必须与新密码一致",
-      trigger: "blur",
-    },
-  ],
+      message: '确认密码必须与新密码一致',
+      trigger: 'blur'
+    }
+  ]
 });
 const formRef = ref();
 const handleSubmit = () => {
   formRef.value.validate((valid, fields) => {
     if (!valid) return;
-    store.dispatch("updatePassword", form);
+    store.dispatch('updatePassword', form);
     showDrawer.value = false;
     formRef.value.resetFields();
   });
@@ -136,30 +145,30 @@ const showDrawer = ref(false);
 const handleCommand = (command) => {
   const commandFn = {
     logout: handleLogout,
-    rePassword: () => (showDrawer.value = true),
+    rePassword: () => (showDrawer.value = true)
   }[command];
   commandFn && commandFn();
 };
 const handleLogout = () => {
-  ElMessageBox.confirm("是否要退出登录", "退出登录", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
-    type: "warning",
+  ElMessageBox.confirm('是否要退出登录', '退出登录', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
   })
     .then(() => {
-      store.dispatch("logout").finally(() => {
-        router.push("/login");
+      store.dispatch('logout').finally(() => {
+        router.push('/login');
       });
       console.log(store);
       ElMessage({
-        type: "success",
-        message: "已退出登录",
+        type: 'success',
+        message: '已退出登录'
       });
     })
     .catch(() => {
       ElMessage({
-        type: "info",
-        message: "取消",
+        type: 'info',
+        message: '取消'
       });
     });
 };

@@ -52,9 +52,9 @@
   </el-row>
 </template>
 <script setup>
-import { reactive, ref, onMounted, onBeforeUnmount } from "vue";
-import { useRouter, useRoute } from "vue-router";
-import { useStore } from "vuex";
+import { reactive, ref, onMounted, onBeforeUnmount } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 
 const router = useRouter();
 const store = useStore();
@@ -62,13 +62,13 @@ let loading = ref(false);
 const loginFormRef = ref();
 
 const loginForm = reactive({
-  username: "",
-  password: "",
+  username: '',
+  password: ''
 });
 
 const loginRules = reactive({
-  username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-  password: [{ required: true, message: "请输入密码", trigger: "blur" }],
+  username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+  password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
 });
 
 const submitForm = async (formEl) => {
@@ -78,30 +78,29 @@ const submitForm = async (formEl) => {
       loading.value = true;
 
       store
-        .dispatch("login", loginForm)
+        .dispatch('login', loginForm)
         .then(() => {
-          ElMessage.success("登录成功");
-          router.push("/");
+          ElMessage.success('登录成功');
+          router.push('/');
         })
         .finally(() => {
           loading.value = false;
         });
     } else {
-      console.log("error submit!", fields);
+      console.log('error submit!', fields);
     }
   });
 };
 
 // 监听回车事件
 const enterKey = (e) => {
-  console.log(e.keyCode === 13);
   if (e.keyCode === 13) submitForm(loginFormRef);
 };
 onMounted(() => {
-  document.addEventListener("keyup", enterKey);
+  document.addEventListener('keyup', enterKey);
 });
 onBeforeUnmount(() => {
-  document.removeEventListener("keyup", enterKey);
+  document.removeEventListener('keyup', enterKey);
 });
 </script>
 <style scoped>
