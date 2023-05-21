@@ -1,17 +1,13 @@
 <template>
-    <div>
-        goodsList
-    </div>
+  <div>goodsList</div>
 </template>
 <script>
 export default {
-    name: "",
-    data() {
-        return {};
-    },
-    methods: {},
+  name: "",
+  data() {
+    return {};
+  },
+  methods: {},
 };
 </script>
-<style scoped>
-        
-</style>
+<style scoped></style>
