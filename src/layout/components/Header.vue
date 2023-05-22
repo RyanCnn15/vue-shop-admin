@@ -28,7 +28,7 @@
         </el-icon>
       </el-tooltip>
       <el-dropdown class="dropdown" @command="handleCommand">
-        <div class="flex items-center text-light-50 space-x-2">
+        <div class="flex items-center text-light-50 space-x-2 !outline-none">
           <el-avatar :size="25" :src="store.state.userInfo.avatar" />
           <span>{{ store.state.userInfo.username }}</span>
           <el-icon class="el-icon--right"><arrow-down /></el-icon>
